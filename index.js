@@ -17,7 +17,12 @@ class TypescriptClassMetaInfoGeneratorPlugin {
         }
 
         this.files = [];
-        this.output = "";
+        this.output = {
+            imports: [],
+            container: null,
+            associations: [],
+            combined: () => this.output.imports.join('') + this.output.container + this.output.associations.join('')
+        };
     }
 
     apply(compiler) {
@@ -44,14 +49,14 @@ class TypescriptClassMetaInfoGeneratorPlugin {
             });
 
             walker.on('end', () => {
-                this.output = `export let ${this.siteName}: any = {};\n`;
+                this.output.container = `\nexport let ${this.siteName}: any = {};\n`;
 
                 this.files.forEach(file => {
-                    this.output += `\nimport { ${file.name} } from "${file.path}";`;
-                    this.output += `\nMooreAndGiles.${file.name} = ${file.name};`
+                    this.output.imports.push(`import { ${file.name} } from "${file.path}";\n`);
+                    this.output.associations.push(`\nMooreAndGiles.${file.name} = ${file.name};`);
                 });
 
-                fs.writeFileSync(this.siteMetaFullPath, this.output, encoding);
+                fs.writeFileSync(this.siteMetaFullPath, this.output.combined(), encoding);
             });
         });
     }
