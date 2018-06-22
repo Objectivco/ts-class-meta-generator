@@ -1,6 +1,6 @@
 {
   "name": "typescript-class-meta-info-generator-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A webpack plugin that generates string to class reference mapping on an object available on the typescript project context. Simply include the site-meta file in whatever file you need and access a project level class definition via Site[classnamehere]",
   "main": "index.js",
   "scripts": {
