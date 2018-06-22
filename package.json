@@ -1,0 +1,28 @@
+{
+  "name": "typescript-class-meta-info-generator-plugin",
+  "version": "1.0.0",
+  "description": "A webpack plugin that generates string to class reference mapping on an object available on the typescript project context. Simply include the site-meta file in whatever file you need and access a project level class definition via Site[classnamehere]",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Objectivco/typescript-class-meta-info-generator-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "typescript",
+    "reflection",
+    "meta"
+  ],
+  "author": "Brandon Tassone <brandon@objectiv.co>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Objectivco/typescript-class-meta-info-generator-plugin/issues"
+  },
+  "homepage": "https://github.com/Objectivco/typescript-class-meta-info-generator-plugin#readme",
+  "dependencies": {
+    "walk": "^2.3.13"
+  }
+}
