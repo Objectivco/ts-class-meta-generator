@@ -1,6 +1,6 @@
 {
-  "name": "typescript-class-meta-info-generator-plugin",
-  "version": "1.0.2",
+  "name": "ts-class-meta-generator",
+  "version": "1.0.3",
   "description": "Webpack plugin that generates a container object and associates the class name with its reference for easy access",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Objectivco/typescript-class-meta-info-generator-plugin.git"
+    "url": "git+https://github.com/Objectivco/ts-class-meta-generator.git"
   },
   "keywords": [
     "webpack",
@@ -19,9 +19,9 @@
   "author": "Brandon Tassone <brandon@objectiv.co>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/Objectivco/typescript-class-meta-info-generator-plugin/issues"
+    "url": "https://github.com/Objectivco/ts-class-meta-generator/issues"
   },
-  "homepage": "https://github.com/Objectivco/typescript-class-meta-info-generator-plugin#readme",
+  "homepage": "https://github.com/Objectivco/ts-class-meta-generator#readme",
   "dependencies": {
     "walk": "^2.3.13"
   }
