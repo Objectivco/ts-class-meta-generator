@@ -26,38 +26,40 @@ class TypescriptClassMetaInfoGeneratorPlugin {
     }
 
     apply(compiler) {
-        compiler.hooks.beforeRun.tap(pluginName, compilation => {
-            // Walker options
-            let walker  = walk.walk(this.srcFolder, { followLinks: false });
+        compiler.hooks.entryOption.tap(pluginName, this.walkAndMake.bind(this));
+    }
 
-            walker.on('file', (root, stat, next) => {
+    walkAndMake() {
+        // Walker options
+        let walker  = walk.walk(this.srcFolder, { followLinks: false });
 
-                if(path.extname(stat.name) === extName) {
-                    let nameWithoutExt = stat.name.substr(0, stat.name.length - extName.length);
-                    let inIgnore = this.ignoreFiles.indexOf(nameWithoutExt) >= 0;
+        walker.on('file', (root, stat, next) => {
 
-                    if(!inIgnore) {
-                        // Add this file to the list of files
-                        this.files.push({
-                            name: nameWithoutExt,
-                            path: root + `/${nameWithoutExt}`
-                        });
-                    }
+            if(path.extname(stat.name) === extName) {
+                let nameWithoutExt = stat.name.substr(0, stat.name.length - extName.length);
+                let inIgnore = this.ignoreFiles.indexOf(nameWithoutExt) >= 0;
+
+                if(!inIgnore) {
+                    // Add this file to the list of files
+                    this.files.push({
+                        name: nameWithoutExt,
+                        path: root + `/${nameWithoutExt}`
+                    });
                 }
+            }
 
-                next();
+            next();
+        });
+
+        walker.on('end', () => {
+            this.output.container = `\nexport let ${this.siteName}: any = {};\n`;
+
+            this.files.forEach(file => {
+                this.output.imports.push(`import { ${file.name} } from "${file.path}";\n`);
+                this.output.associations.push(`\nMooreAndGiles.${file.name} = ${file.name};`);
             });
 
-            walker.on('end', () => {
-                this.output.container = `\nexport let ${this.siteName}: any = {};\n`;
-
-                this.files.forEach(file => {
-                    this.output.imports.push(`import { ${file.name} } from "${file.path}";\n`);
-                    this.output.associations.push(`\nMooreAndGiles.${file.name} = ${file.name};`);
-                });
-
-                fs.writeFileSync(this.siteMetaFullPath, this.output.combined(), encoding);
-            });
+            fs.writeFileSync(this.siteMetaFullPath, this.output.combined(), encoding);
         });
     }
 
