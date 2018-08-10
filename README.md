@@ -20,3 +20,25 @@ let TsClassMetaGeneratorPlugin = require('ts-class-meta-generator');
 	]
 }
 ```
+
+Webpack Options
+===============
+```
+srcFolder: string - The directory with ts source files you want walked
+[Default]: ./src/ts
+
+siteName: string - The class name / namespace you want to use for your container name
+[Default]: Site
+
+siteMetaFileName: string - The file name that holds all the meta information about the classes.
+[Default]: site-meta.ts
+
+siteMetaPath: string - The location the meta file should be generated.
+[Default]: .
+
+ignoreFiles: string[] - List of file names (case-sensitive) without the ts extension.
+[Default]: []
+
+ignoreFolders: string[] - List of folder names (case-sensitive) to ignore.
+[Default]: []
+```
