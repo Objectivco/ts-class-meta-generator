@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/Objectivco/ts-class-meta-generator#readme",
   "dependencies": {
-    "walk": "^2.3.13"
+    "walk": "^2.3.14"
   }
 }
