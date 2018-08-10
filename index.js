@@ -85,7 +85,7 @@ class TypescriptClassMetaInfoGeneratorPlugin {
 
             this.files.forEach(file => {
                 this.output.imports.push(`import { ${file.name} } from "${file.path}";\n`);
-                this.output.associations.push(`\nMooreAndGiles.${file.name} = ${file.name};`);
+                this.output.associations.push(`\n${this.siteName}.${file.name} = ${file.name};`);
             });
 
             fs.writeFileSync(this.siteMetaFullPath, this.output.combined(), encoding);
