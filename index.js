@@ -22,6 +22,8 @@ class TypescriptClassMetaInfoGeneratorPlugin {
      *  [Default]: site-meta.ts
      * siteMetaPath: string - The location the meta file should be generated.
      *  [Default]: .
+     * importPath: string - If siteMetaPath is not the root sometimes the import path needs to change
+     *  [Default]: ''
      * ignoreFiles: string[] - List of file names (case-sensitive) without the ts extension.
      *  [Default]: []
      * ignoreFolders: string[] - List of folder names (case-sensitive) to ignore.
@@ -32,6 +34,7 @@ class TypescriptClassMetaInfoGeneratorPlugin {
             this.siteName = (options.siteName) ? options.siteName : 'Site';
             this.siteMetaFileName = (options.siteMetaFileName) ? options.siteMetaFileName : 'site-meta.ts';
             this.siteMetaPath = (options.siteMetaPath) ? options.siteMetaPath : '.';
+            this.importPath = (options.importPath) ? options.importPath : '';
             this.ignoreFiles = (options.ignoreFiles) ? options.ignoreFiles : [];
             this.ignoreFolders = (options.ignoreFolders) ? options.ignoreFolders: [];
         }
@@ -84,12 +87,43 @@ class TypescriptClassMetaInfoGeneratorPlugin {
             this.output.container = `\nexport let ${this.siteName}: any = {};\n`;
 
             this.files.forEach(file => {
-                this.output.imports.push(`import { ${file.name} } from "${file.path}";\n`);
+                this.output.imports.push(`import { ${file.name} } from "${this.createImportPath(file.path)}";\n`);
                 this.output.associations.push(`\n${this.siteName}.${file.name} = ${file.name};`);
             });
 
             fs.writeFileSync(this.siteMetaFullPath, this.output.combined(), encoding);
         });
+    }
+
+    /**
+     * Gets the absolute path to file and removes the srcFolder path part to leave just the relative path to the file.
+     * Once obtained it appends it to the specified importPath
+     *
+     * @param {string} filePath
+     *
+     * @returns {string}
+     */
+    createImportPath(filePath) {
+        let importPath = filePath;
+
+        if(this.importPath !== "") {
+            let relativePath = this.arrayDif(filePath.split(path.sep), this.srcFolder.split(path.sep)).join(path.sep);
+            importPath = `${this.importPath}${path.sep}${relativePath}`;
+        }
+
+        return importPath;
+    }
+
+    /**
+     * Finds the differences from the first array in the second
+     *
+     * @param {array} a1
+     * @param {array} a2
+     *
+     * @returns {array}
+     */
+    arrayDif(a1, a2) {
+        return a1.filter(item => a2.indexOf(item) < 0);
     }
 
     /**
@@ -141,6 +175,20 @@ class TypescriptClassMetaInfoGeneratorPlugin {
      */
     set siteMetaPath(value) {
         this._siteMetaPath = value;
+    }
+
+    /**
+     * @returns {string}
+     */
+    get importPath() {
+        return this._importPath;
+    }
+
+    /**
+     * @param {string} value
+     */
+    set importPath(value) {
+        this._importPath = value;
     }
 
     /**
