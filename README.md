@@ -36,6 +36,9 @@ siteMetaFileName: string - The file name that holds all the meta information abo
 siteMetaPath: string - The location the meta file should be generated.
 [Default]: .
 
+importPath: string - If siteMetaPath is not the root sometimes the import path needs to change
+[Default]: ''
+
 ignoreFiles: string[] - List of file names (case-sensitive) without the ts extension.
 [Default]: []
 
