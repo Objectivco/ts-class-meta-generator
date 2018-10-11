@@ -9,6 +9,8 @@ const encoding = 'utf8';
 
 /**
  * Webpack plugin that generates a container object and associates the class name with its reference for easy access
+ *
+ * @version 1.0.6
  */
 class TypescriptClassMetaInfoGeneratorPlugin {
     /**

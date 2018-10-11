@@ -1,6 +1,6 @@
 {
   "name": "ts-class-meta-generator",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Webpack plugin that generates a container object and associates the class name with its reference for easy access",
   "main": "index.js",
   "scripts": {
